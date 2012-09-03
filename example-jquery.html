@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no,initial-scale=1.0">
+    <link rel="stylesheet" href="lib/infinite-scroll.css">
+    <script type="text/javascript" src="lib/jquery-172-min.js"></script>
+    <script src="lib/jquery.infinite-scroll.js"></script>
+    <style>
+        section {
+            display: inline-block;
+        }
+
+        #demo1 {
+            height: 400px;
+            width: 300px;
+            margin-right: 20px;
+            background-color: yellow;
+        }
+
+        #demo2 {
+            height: 500px;
+            width: 200px;
+            background-color: red;
+        }
+
+        ol {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            height: 100px;
+            line-height: 100px;
+            vertical-align: middle;
+            width: 100%;
+            border-bottom: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+<section id="demo1">
+    <ol>
+        <li>Total 60 items / 6 step</li>
+        <li>With spinner</li>
+        <li>500ms to load more items</li>
+        <li>Record 4</li>
+        <li>Record 5</li>
+        <li>Record 6</li>
+    </ol>
+</section>
+
+<section id="demo2">
+    <ol>
+        <li>Total 160 items / 8 step</li>
+        <li>Without spinner</li>
+        <li>200ms to load more items</li>
+        <li>Record 4</li>
+        <li>Record 5</li>
+        <li>Record 6</li>
+        <li>Record 7</li>
+        <li>Record 8</li>
+    </ol>
+</section>
+
+<script>
+    (function () {
+        var olElem1 = $("#demo1 ol"),
+            olElem2 = $("#demo2 ol");
+        olElem1.infiniteScroll({
+            element: '#demo1',
+            callback: function () {
+                var num = olElem1.find("li").length + 1,
+                    newHtml = '';
+
+                for (var i = 0; i < 6; i++) {
+                    newHtml += "<li>" + ('Record ' + num++) + "</li>";
+                }
+                olElem1.append(newHtml);
+                // return false to stop
+                return num >= 60;
+            }
+        });
+
+        olElem2.infiniteScroll({
+            element: '#demo2',
+            spinner: false,
+            callback: function load() {
+                setTimeout(function () {
+                    var num = olElem2.find("li").length + 1,
+                        newHtml = '';
+
+                    for (var i = 0; i < 6; i++) {
+                        newHtml += "<li>" + ('Record ' + num++) + "</li>";
+                    }
+                    olElem2.append(newHtml);
+                    // return false to stop
+                    return num >= 160;
+                }, 200);
+            }
+        });
+
+    }())
+</script>
+</body>
+</html>
